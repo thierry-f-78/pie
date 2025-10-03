@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// comment 
+// comment
 #include <cairo.h>
 #include <cairo-ps.h>
 #include <cairo-pdf.h>
@@ -56,7 +56,7 @@ struct conf {
 	double title_size;
 	char *title;
 	struct color title_color;
-	cairo_text_extents_t title_exts;;
+	cairo_text_extents_t title_exts;
 
 	char draw_leg;
 	double leg_size;
@@ -109,7 +109,7 @@ struct portion {
 static inline
 void convert_rgba_hex(char *hex, unsigned char alpha, struct color *out);
 
-struct conf *pie_new(void) 
+struct conf *pie_new(void)
 {
 	struct conf *co;
 
@@ -241,7 +241,7 @@ void convert_rgba_hex(char *hex, unsigned char alpha, struct color *out)
 
 	if (hex[0] == '#')
 		hex++;
-	
+
 	if (strlen(hex) != 6) {
 		out->r = 0;
 		out->g = 0;
@@ -249,7 +249,7 @@ void convert_rgba_hex(char *hex, unsigned char alpha, struct color *out)
 		out->a = 0;
 		return;
 	}
-	
+
 	out->r = ( hex_to_int(hex[0]) * 16.0f ) + hex_to_int(hex[1]);
 	out->g = ( hex_to_int(hex[2]) * 16.0f ) + hex_to_int(hex[3]);
 	out->b = ( hex_to_int(hex[4]) * 16.0f ) + hex_to_int(hex[5]);
@@ -307,7 +307,7 @@ void draw_face_start(cairo_t *c, struct portion *p)
 	cairo_set_source_col(c, &p->line); /* set dark color */
 	cairo_stroke(c);
 }
-	
+
 static inline
 void draw_face_stop(cairo_t *c, struct portion *p)
 {
@@ -341,7 +341,7 @@ void draw_face_rounded(cairo_t *c, struct conf *co, struct portion *p)
 
 	/* set line */
 	cairo_set_line_width(c, 0.0);
-	
+
 	/* set dark color */
 	cairo_set_source_col(c, &p->dark);
 
@@ -392,7 +392,7 @@ void draw_face_rounded(cairo_t *c, struct conf *co, struct portion *p)
 	cairo_set_source_col(c, &p->line); /* set dark color */
 	cairo_stroke(c);
 }
-	
+
 static inline
 void draw_face_top(cairo_t *c, struct conf *co, struct portion *p)
 {
@@ -459,7 +459,7 @@ void sort_stop(struct portion *p, int pnb, struct portion **ps, int *psnb)
 			p[i].tmp = p[i].ca_stop;
 			ps[j++] = &p[i];
 		}
-			
+
 		if (p[i].ca_stop >= 0.0f && p[i].ca_stop < M_PI/2.0f) {
 			p[i].tmp = p[i].ca_stop + 2.0f*M_PI; /* update angle value for sort */
 			ps[j++] = &p[i];
@@ -620,7 +620,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 
 	/* pie draw utility surface */
 	co->pie_w  = co->img_w - ( ( 2.0 * co->margin ) + ( 2.0 * width_leg ) );
-	co->pie_h  = co->img_h - ( ( 2.0 * co->margin ) + co->title_exts.height + 
+	co->pie_h  = co->img_h - ( ( 2.0 * co->margin ) + co->title_exts.height +
 	                         height_leg );
 
 	/*               pie_w
@@ -645,7 +645,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 	co->ry = co->rx * co->ratio;
 
 	/* adjust radius */
-	hauteur = ( co->ry * 2.0f ) + ( co->height * co->ry ) + 
+	hauteur = ( co->ry * 2.0f ) + ( co->height * co->ry ) +
 	          ( max(co->extract, co->nb) * co->ry * 2.0f );
 	if ( hauteur  > co->pie_h ) {
 		co->rx *= (double)co->pie_h / hauteur;
@@ -656,7 +656,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 
 	/*
 	 * top ----------------------
-	 *      ^    ^  ^ 
+	 *      ^    ^  ^
 	 *      |    |  | padding
 	 *      |    |  v
 	 *      |  c |  ^
@@ -664,7 +664,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 	 *      |    |  v
 	 *      |    |  ^
 	 *      |    v  | ry
-	 *      |  - - -X 
+	 *      |  - - -X
 	 * imgy |       | ry
 	 *      |       v
 	 *      |       ^
@@ -676,7 +676,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 	 *      |       ^
 	 *      |       | padding
 	 *      v       v
-	 * bottom -------------------     
+	 * bottom -------------------
 	 *
 	 *
 	 * imgy = ( 2 * padding ) + ( 2 * ry ) + ( height * ry ) + ( 2 * ex * ry )
@@ -684,7 +684,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 	 *           imgy - ( 2 * ry ) - ( height * ry ) - ( 2 * ex * ry )
 	 * padding = -----------------------------------------------------
 	 *                                   2
-	 * 
+	 *
 	 * padding = c - ry - ( ex * ry )
 	 *
 	 *                        imgy - ( 2 * ry ) - ( height * ry ) - ( 2 * ex * ry )
@@ -710,7 +710,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 
 		/* start and stop angles */
 		p[i].ang_strt = last;
-		p[i].ang_stop = p[i].ang_strt + ( ( 2.0f * M_PI * 
+		p[i].ang_stop = p[i].ang_strt + ( ( 2.0f * M_PI *
 		                (double)co->part[i] ) / (double)total );
 		last = p[i].ang_stop;
 
@@ -731,7 +731,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 			p[i].ca_stop += 2.0 * M_PI;
 
 		/* on calcule le point central */
-		p[i].t_cent.x = ( (co->decal + co->extract[i]) * co->rx * 
+		p[i].t_cent.x = ( (co->decal + co->extract[i]) * co->rx *
 		                cos( (p[i].ang_strt+p[i].ang_stop)/2 ) ) + co->cx;
 		p[i].t_cent.y = ( (co->decal + co->extract[i]) * co->ry *
 		                sin( (p[i].ang_strt+p[i].ang_stop)/2 ) ) + co->cy;
@@ -840,7 +840,7 @@ void pie_cairo_draw(cairo_t *c, struct conf *co) {
 	/* on ne dessine pas les faces cachées
 	 *
 	 *  - rounded  haut gauche et haut droit
-	 *  - stop     bas gauce et haut gauche 
+	 *  - stop     bas gauce et haut gauche
 	 *  - start    haut droit et bas droit
 	 */
 
@@ -925,7 +925,7 @@ void pie_draw(struct conf *co, int mode, const char *file_out)
 	case 4:
 		s = cairo_pdf_surface_create_for_stream(cairo_wr, out, co->img_w, co->img_h);
 		break;
-	
+
 	default:
 		fprintf(stderr, "bad mode\n");
 		exit(1);

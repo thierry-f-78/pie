@@ -45,7 +45,7 @@ void usage() {
 		" -L <float>           : Legend size in px. Default is 10px\n"
 		" -m <float>           : Margin in pixel. Deafult is 10px\n"
 		" -o <file>            : Output file name. '-' is stdout\n"
-		" -r <float>           : Ratio between height and with of pie.\n"
+		" -r <float>           : Ratio between height and width of pie.\n"
 		"                        Values must between 0 and 1. default is 0.5\n"
 		" -s <size>            : Title size in px. Default is 15px\n"
 		" -t <title>           : Graph title. Default is empty\n"

@@ -9,7 +9,7 @@
 #include <math.h>
 #include <cairo.h>
 
-/* 
+/*
  * x = h + a * cos(t);
  * y = k + b * sin(t);
  *
@@ -48,7 +48,7 @@ int ____main(void) {
 
 	s = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 300, 300);
 	c = cairo_create(s);
-	
+
 	cairo_set_line_width(c, 1.0f);
 
 	cairo_move_to(c, 150, 150);

@@ -1,6 +1,6 @@
 OBJS = pie.o ellipse.o
 LIBS = -lcairo -lpixman-1 -lm
-CFLAGS = -Wall -g -O0 -I/usr/include/cairo
+CFLAGS = -Wall -Wpedantic -g -O0 -I/usr/include/cairo
 
 all: pie libpie.so libpie-static.a
 
@@ -11,14 +11,14 @@ libpie.so: $(OBJS)
 	$(CC) -o libpie.so -shared libpie-static.a $(LIBS)
 
 pie: libpie-static.a main.o
-	$(CC) -o pie main.o libpie-static.a $(LIBS) 
+	$(CC) -o pie main.o libpie-static.a $(LIBS)
 
 clean:
 	rm -f pie $(OBJS) libpie.so libpie-static.a main.o
 
 install:
 	@if test -z "$(DESTDIR)"; then \
-		echo -ne "\n\e[01;31mUsage: make install DESTIR=\"<path>\"\e[00m\n\n"; \
+		echo -ne "\n\e[01;31mUsage: make install DESTDIR=\"<path>\"\e[00m\n\n"; \
 		false; \
 	else \
 		mkdir -p $(DESTDIR)/bin || true ; \
@@ -29,4 +29,3 @@ install:
 		cp libpie-static.a $(DESTDIR)/lib; \
 		cp libpie.so $(DESTDIR)/lib; \
 	fi
-
